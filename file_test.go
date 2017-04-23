@@ -8,6 +8,28 @@ import (
 
 // Instance Tests
 
+func TestRoot_ByClassByClassName(t *testing.T) {
+	root := &rbxfile.Root{
+		Instances: []*rbxfile.Instance{
+			rbxfile.NewInstance("Folder", nil),
+			rbxfile.NewInstance("ServerScriptService", nil),
+			rbxfile.NewInstance("Workspace", nil),
+		},
+	}
+
+	workspace := root.ByClassName("Workspace")
+	if workspace != root.Instances[2] {
+		t.Errorf("got instance %#v, want %#v", workspace, root.Instances[2])
+	}
+
+	root.Instances[1].SetName("test")
+
+	inst := root.ByName("test")
+	if inst != root.Instances[1] {
+		t.Errorf("got instance %#v, want %#v", workspace, root.Instances[1])
+	}
+}
+
 func TestNewInstance(t *testing.T) {
 	inst := rbxfile.NewInstance("Part", nil)
 	if inst.ClassName != "Part" {

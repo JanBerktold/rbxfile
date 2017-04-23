@@ -35,6 +35,29 @@ type Root struct {
 	Instances []*Instance
 }
 
+
+// ByName returns the first instance whose name matches the specified name
+// found in the root instance. Returns nil if no instance is found.
+func (root *Root) ByName(name string) *Instance {
+	for _, instance := range root.Instances {
+		if instance.Name() == name {
+			return instance
+		}
+	}
+	return nil
+}
+
+// ByClassName returns the first instance of the specified class found
+// in the root instance. Returns nil if no instance is found.
+func (root *Root) ByClassName(class string) *Instance {
+	for _, instance := range root.Instances {
+		if instance.ClassName == class {
+			return instance
+		}
+	}
+	return nil
+}
+
 // Copy creates a copy of the root and its contents.
 //
 // A copied reference within the tree is resolved so that it points to the
